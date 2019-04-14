@@ -15,79 +15,6 @@ def maxitime(system_size):
     return sum
 
 
-def oslo(system_size, itime): # faulty!!!!!!!
-    "Implements the oslo model and returns steady state heights"
-
-    ################### initialization #############################
-    
-    L = system_size + 1     #system_size
-    
-    sites = np.zeros(L)   # initialize system heights
-    z = sites
-    
-    heights = np.zeros(L)  # store heights
-    h  = heights
-    
-    thresholds = np.random.randint(1, 3, size = L)  # initialize threshold slopes
-    z_th = thresholds
-    
-    ################## iteration step #############################
-    
-    counter2 = 0
-    
-    
-    while True:
-        counter = 0
-        for i in range(len(sites)):
-            if i == 0:   # drive
-                z[i] += 1
-                h[i] += 1
-                
-            if z[i] > z_th[i]:  # relaxation
-                
-                if i == 0:
-                    z[i] -= 2
-                    z[i+1] += 1
-                    
-                    h[i] -= 1           # update heights
-                    h[i+1] += 1
-                    
-                    z_th[i] = rn.randint(1,2) # change threshold upon relaxation 
-                    
-                elif i != 0 and (i != len(sites)-1):
-                    z[i] -= 2
-                    z[i+1] += 1
-                    z[i-1] += 1
-                    
-                    
-                    h[i] -= 1           # update heights
-                    h[i+1] += 1                
-                    
-                    z_th[i] = rn.randint(1,2) # change threshold upon relaxation
-                    
-                elif (i == len(sites)-1):
-                   z[i] -= 1
-                   z[i-1] += 1
-                   
-                   h[i] -= 1           # update heights  (different: grain leaves the system)              
-                   
-                   z_th[i] = rn.randint(1,2) # change threshold upon relaxation
-                   
-            if z[len(sites) - 1] != 0:    # don't break the loop at the beginning
-                
-                if z[i] <= z_th[i]:   # exit condition linked with the fact that system in steady state
-                    counter += 1
-        counter2 += 1
-        
-        if counter == len(sites):   # store iteration time taken to reach steady state
-            itsteady = counter2
-        
-        
-        if counter2 == itime:       # implement exit condition if reached for all sites eg. for how many iterations I want it to run
-            break
-    
-    return h, itsteady
-
 L = 32
 iterations = 1000
 #site1h = np.zeros(iterations)     # heights per time step 
@@ -523,37 +450,9 @@ def oslo_pile_heights2(system_size, itime, thresholds_z=[1,2], probs=[0.5,0.5]):
                             steady_first_time = True
                         break
                     h[i+1] += 1   
-#                    elif i != 0 and (i != len(sites)-1):
-##                        z[i] -= 2
-##                        z[i+1] += 1
-##                        z[i-1] += 1
-#                        
-#                        
-#                        h[i] -= 1           # update heights
-#                        h[i+1] += 1                
-#                        
-#                        z_th[i] = rn.randint(1,2) #np.random.choice([1,2], p = [0.5, 0.5]) # change threshold upon relaxation
-#                        
-#                        counter5 += 1
-#                        
-#                    elif (i == len(sites)-1):
-##                       z[i] -= 1
-##                       z[i-1] += 1
-#                       
-#                       h[i] -= 1           # update heights  (different: grain leaves the system)              
-#                       
-#                       z_th[i] = rn.randint(1,2) #np.random.choice([1,2], p = [0.5, 0.5]) # change threshold upon relaxation
-#                       
-#                       counter5 += 1
                     
-                i += 1
-                #if h[0] != 0:    # don't break the loop at the beginning
-#                if z[i] <= z_th[i]:   
-#                    counter += 1
-#            counter = 0            
-#            for i in range(0, len(sites)): # exit condition linked with the fact that system is fully relaxed
-#                if z_th[i] >= z[i]:
-#                    counter += 1
+                i += 1                      # increment pile height+grain counter
+
             if counter == 0:
                 break
 #            if np.all((z_th - z) > np.zeros(len(sites))) == True:
@@ -606,7 +505,7 @@ def oslo_pile_heights2(system_size, itime, thresholds_z=[1,2], probs=[0.5,0.5]):
 #sum
  
 import pickle
-#    
+#    reading+generating data takes a lot of time  so uncomment once
 #counter = 0
 #for size in [1024]:
 ##    
