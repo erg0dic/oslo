@@ -35,12 +35,6 @@ class Site:
         self.height = 0
         self.thpotential = rn.randint(1,2)
         
-#z = Site()
-#
-#print(z.increment()) 
-#print(z.increment())   
-#print(z.get_height())  
-        
 
 class Pile:
     """Define a pile and Oslo model parameters for an array of sites. Essentially an array of Site objects."""
